@@ -22,7 +22,7 @@ A graph is created (with Maplotlib) and saved at the end of the workflow.
 - Command: `python extract_occurrences.py "digital pathology" 1970 2022`
 - Output: `digital pathology.csv`
 
-![graph]()
+![graph](https://github.com/RobinHCK/academic-keyword-occurrence-with-plot/blob/master/occurences_digital%20pathology.png)
 
 ## Credits
 Created by Volker Strobel - volker.strobel87@gmail.com
