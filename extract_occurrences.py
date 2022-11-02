@@ -1,9 +1,11 @@
-# By: Volker Strobel, improved by Patrick Hofmann
+# By: Volker Strobel, improved by Patrick Hofmann, graph plot by Robin HCK
 from bs4 import BeautifulSoup
 from urllib.request import Request, build_opener, HTTPCookieProcessor
 from urllib.parse import urlencode
 from http.cookiejar import MozillaCookieJar
 import re, time, sys, urllib
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def get_num_results(search_term, start_date, end_date):
     """
@@ -42,7 +44,7 @@ def get_num_results(search_term, start_date, end_date):
 
 def get_range(search_term, start_date, end_date):
 
-    fp = open("out.csv", 'w')
+    fp = open(search_term+".csv", 'w')
     fp.write("year,results\n")
     print("year,results")
 
@@ -55,7 +57,7 @@ def get_range(search_term, start_date, end_date):
         year_results = "{0},{1}".format(date, num_results)
         print(year_results)
         fp.write(year_results + '\n')
-        time.sleep(0.8)
+        time.sleep(3)
 
     fp.close()
 
@@ -69,7 +71,26 @@ if __name__ == "__main__":
         print("Usage: python extract_occurences.py '<search term>' <start date> <end date>")
         
     else:
+        # Params
         search_term = sys.argv[1]
         start_date = int(sys.argv[2])
         end_date = int(sys.argv[3])
+        
+        # Run request & Save results in csv file
         html = get_range(search_term, start_date, end_date)
+
+        # Extract csv file content
+        input_csv = pd.read_csv(search_term + '.csv')
+        first_column_data = input_csv[input_csv.keys()[0]]
+        second_column_data = input_csv[input_csv.keys()[1]]
+
+        # Plot & Save graph
+        plt.figure(figsize=(7, 6))
+        plt.xticks(rotation=45)
+
+        plt.title('Nombre d\'occurrences du terme \"' + search_term + '\"\ndans les articles académiques')
+        plt.xlabel('Années')
+        plt.ylabel('Nombre d\'occurences')
+
+        plt.bar(first_column_data, second_column_data)
+        plt.savefig('occurences_' + search_term + '.png')
