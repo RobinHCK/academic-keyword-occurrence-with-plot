@@ -93,4 +93,4 @@ if __name__ == "__main__":
         plt.ylabel('Nombre d\'occurences')
 
         plt.bar(first_column_data, second_column_data)
-        plt.savefig('occurences_' + search_term + '.png')
+        plt.savefig('occurences_' + search_term + '.pdf')
